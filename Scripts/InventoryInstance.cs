@@ -16,6 +16,7 @@ namespace RAXY.InventorySystem
             KeyLabel = "Instance Id",
             ValueLabel = "Label",
             DisplayMode = DictionaryDisplayOptions.Foldout)]
+        [HideReferenceObjectPicker]
         public Dictionary<string, IItemInstance> storedItems = new();
 
         public InventoryInstance() { }

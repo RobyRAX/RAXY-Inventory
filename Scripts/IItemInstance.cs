@@ -1,5 +1,8 @@
+using Sirenix.OdinInspector;
+
 namespace RAXY.InventorySystem
 {
+    [HideReferenceObjectPicker]
     public interface IItemInstance
     {
         public string ItemId { get; set; }

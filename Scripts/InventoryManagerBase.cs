@@ -11,13 +11,19 @@ namespace RAXY.InventorySystem
     {
         public const string PLAYER_INVENTORY_ID = "player_inventory";
 
+        public InventoryInstance PlayerInventoryInstance
+        {
+            get
+            {
+                if (InventoryInstances.TryGetValue(PLAYER_INVENTORY_ID, out var instance))
+                    return instance;
+
+                return null;
+            }
+        }
+
         protected virtual void Awake()
         {
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-
             if (ItemFactoryObj != null && ItemFactoryObj.TryGetComponent(out IItemFactory factory))
             {
                 ItemFactory = factory;
@@ -31,49 +37,8 @@ namespace RAXY.InventorySystem
                     ItemDatabase.Init().Forget();
                 }
             }
-        }
 
-        public static InventoryManagerBase Instance { get; private set; }
-
-        [TitleGroup("Inventory Instance")]
-        [ShowInInspector]
-        protected InventoryInstance _playerInventoryInstance;
-
-        public static InventoryInstance PlayerInventoryInstance
-        {
-            get
-            {
-                if (Instance?.InventoryInstances == null)
-                    return null;
-
-                if (Instance._playerInventoryInstance != null)
-                    return Instance._playerInventoryInstance;
-
-                if (Instance.InventoryInstances.TryGetValue(PLAYER_INVENTORY_ID, out var instance))
-                {
-                    instance?.SetInventoryManager(Instance);
-                    Instance._playerInventoryInstance = instance;
-                    return instance;
-                }
-
-                return null;
-            }
-            set
-            {
-                if (Instance == null)
-                    return;
-
-                Instance.InventoryInstances ??= new Dictionary<string, InventoryInstance>();
-
-                if (value != null)
-                {
-                    value.inventoryId = PLAYER_INVENTORY_ID;
-                    value.SetInventoryManager(Instance);
-                }
-
-                Instance.InventoryInstances[PLAYER_INVENTORY_ID] = value;
-                Instance._playerInventoryInstance = value;
-            }
+            SendInitialItems();
         }
 
         /// <summary>
