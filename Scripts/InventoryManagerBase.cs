@@ -22,25 +22,6 @@ namespace RAXY.InventorySystem
             }
         }
 
-        protected virtual void Awake()
-        {
-            if (ItemFactoryObj != null && ItemFactoryObj.TryGetComponent(out IItemFactory factory))
-            {
-                ItemFactory = factory;
-            }
-
-            if (setItemDbInitially)
-            {
-                if (ItemDatabaseSO is IItemDatabase itemDb)
-                {
-                    ItemDatabase = itemDb;
-                    ItemDatabase.Init().Forget();
-                }
-            }
-
-            SendInitialItems();
-        }
-
         /// <summary>
         /// ItemAmountContainer is the item that will be added;<br/>
         /// string is inventoryId;<br/>
@@ -219,35 +200,17 @@ namespace RAXY.InventorySystem
             }
         }
 
-        [TitleGroup("Reference")]
-        [SerializeField]
-        bool setItemDbInitially = true;
-
         public IItemDatabase ItemDatabase { get; set; }
+        public IItemFactory ItemFactory { get; set; }
 
-        [TitleGroup("Reference")]
-        [ShowIf("@setItemDbInitially")]
-        [InfoBox("This ScriptableObject doesn't use IItemDatabase", VisibleIf = "@ValidateItemDatabase", InfoMessageType = InfoMessageType.Error)]
-        public ScriptableObject ItemDatabaseSO;
-        bool ValidateItemDatabase
+        public void SetItemDatabase(IItemDatabase itemDatabase)
         {
-            get
-            {
-                return ItemDatabaseSO != null && ItemDatabaseSO is not IItemDatabase;
-            }
+            ItemDatabase = itemDatabase;
         }
 
-        public IItemFactory ItemFactory { get; private set; }
-
-        [TitleGroup("Reference")]
-        [InfoBox("This object doesn't contain IItemFactory", VisibleIf = "@ValidateItemFactory", InfoMessageType = InfoMessageType.Error)]
-        public GameObject ItemFactoryObj;
-        bool ValidateItemFactory
+        public void SetItemFactory(IItemFactory itemFactory)
         {
-            get
-            {
-                return ItemFactoryObj != null && ItemFactoryObj.GetComponent<IItemFactory>() == null;
-            }
+            ItemFactory = itemFactory;
         }
 
         [TitleGroup("Setting")]
