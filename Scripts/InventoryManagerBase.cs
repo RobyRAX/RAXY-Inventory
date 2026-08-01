@@ -170,6 +170,8 @@ namespace RAXY.InventorySystem
 
         public event Action OnInitialItemSent;
 
+        [TitleGroup("Debug Function")]
+        [Button]
         public void SendInitialItems()
         {
             InventoryInstances ??= new Dictionary<string, InventoryInstance>();
@@ -200,14 +202,23 @@ namespace RAXY.InventorySystem
             }
         }
 
+        [TitleGroup("Dependency")]
+        [ShowInInspector]
         public IItemDatabase ItemDatabase { get; set; }
+
+        [TitleGroup("Dependency")]
+        [ShowInInspector]
         public IItemFactory ItemFactory { get; set; }
 
+        [TitleGroup("Dependency")]
+        [Button]
         public void SetItemDatabase(IItemDatabase itemDatabase)
         {
             ItemDatabase = itemDatabase;
         }
 
+        [TitleGroup("Dependency")]
+        [Button]
         public void SetItemFactory(IItemFactory itemFactory)
         {
             ItemFactory = itemFactory;

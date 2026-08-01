@@ -123,46 +123,74 @@ namespace RAXY.InventorySystem
         public IItemInstance AddItem(ItemAmountContainer itemAmountContainer, bool notify = true)
         {
             if (itemAmountContainer == null)
+            {
+                Debug.LogWarning("[Inventory] AddItem failed: ItemAmountContainer is null.");
                 return null;
+            }
 
             if (storedItems == null)
+            {
+                Debug.Log("[Inventory] storedItems is null. Creating new dictionary.");
                 storedItems = new Dictionary<string, IItemInstance>();
+            }
 
             if (itemAmountContainer.amount <= 0)
+            {
+                Debug.LogWarning($"[Inventory] AddItem failed: Invalid amount ({itemAmountContainer.amount}) for ItemId '{itemAmountContainer.itemId}'.");
                 return null;
+            }
 
             if (_inventoryManager == null)
+            {
+                Debug.LogError("[Inventory] AddItem failed: InventoryManager is null.");
                 return null;
+            }
 
             if (_inventoryManager.ItemDatabase == null)
+            {
+                Debug.LogError("[Inventory] AddItem failed: ItemDatabase is null.");
                 return null;
+            }
 
             var itemSO = _inventoryManager.ItemDatabase.GetItemEntry(itemAmountContainer.itemId);
             if (itemSO == null)
+            {
+                Debug.LogWarning($"[Inventory] AddItem failed: Item '{itemAmountContainer.itemId}' not found in ItemDatabase.");
                 return null;
+            }
 
-            IItemInstance itemInstance = null;
-            itemInstance = storedItems.Values.FirstOrDefault(item => item.ItemId == itemAmountContainer.itemId);
+            IItemInstance itemInstance = storedItems.Values.FirstOrDefault(item => item.ItemId == itemAmountContainer.itemId);
 
             if (itemInstance != null && itemSO.IsStackable)
             {
                 itemInstance.Amount += itemAmountContainer.amount;
+
+                Debug.Log($"[Inventory] Stacked '{itemSO.ItemId}'. New Amount: {itemInstance.Amount}");
             }
             else
             {
                 var factory = _inventoryManager.ItemFactory;
                 if (factory == null)
+                {
+                    Debug.LogError("[Inventory] AddItem failed: ItemFactory is null.");
                     return null;
+                }
 
                 itemInstance = factory.CreateItemInstance(itemSO, itemAmountContainer.amount);
                 if (itemInstance == null)
+                {
+                    Debug.LogError($"[Inventory] AddItem failed: Factory failed to create instance for '{itemSO.ItemId}'.");
                     return null;
+                }
 
                 storedItems[itemInstance.ItemInstanceId] = itemInstance;
+
+                Debug.Log($"[Inventory] Created new item instance '{itemInstance.ItemInstanceId}' for '{itemSO.ItemId}' x{itemAmountContainer.amount}");
             }
 
             if (notify)
             {
+                Debug.Log($"[Inventory] Notify ItemAdded: '{itemSO.ItemId}' x{itemAmountContainer.amount} -> Inventory '{inventoryId}'");
                 _inventoryManager.Fire_ItemAddedEvent(itemAmountContainer, inventoryId);
             }
 
