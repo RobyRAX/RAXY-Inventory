@@ -1,6 +1,6 @@
 {
   "name": "com.raxy.inventory",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "displayName": "RAXY Inventory System",
   "author": {
     "name": "RobyRAX",
@@ -10,5 +10,12 @@
     "com.raxy.core": "1.0.0",
     "com.raxy.utility.localization": "1.0.0",
     "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask"
-  }
+  },
+  "samples": [
+    {
+      "displayName": "Basic Setup",
+      "description": "Minimal inventory manager with sample Currency SO/instance, item database, factory, and debug Add/Subtract.",
+      "path": "Samples~/Basic Setup"
+    }
+  ]
 }

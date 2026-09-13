@@ -12,9 +12,17 @@ RAXY Inventory System provides a modular inventory foundation for Unity projects
 ## Setup
 
 1. Create a concrete manager that extends `InventoryManagerBase` (e.g. `InventoryManager`).
-2. Assign a ScriptableObject that implements `IItemDatabase` to `ItemDatabaseSO`.
-3. Assign a GameObject with a component implementing `IItemFactory` to `ItemFactoryObj`.
+2. Assign a ScriptableObject that implements `IItemDatabase`.
+3. Assign a component that implements `IItemFactory`.
 4. Optionally configure `InitialItems` and call `SendInitialItems()` at game start.
+
+## Samples
+
+Import **Basic Setup** from Package Manager → RAXY Inventory System → Samples:
+
+- `SampleCurrencySO` + `SampleItemInstance_Currency` — minimal stackable currency
+- `SampleItemDatabaseSO` + `SampleItemFactory`
+- `Sample Inventory Manager` prefab with debug Add/Subtract and starter coins
 
 ## Dependencies
 
@@ -25,4 +33,4 @@ RAXY Inventory System provides a modular inventory foundation for Unity projects
 
 ## Notes
 
-`IItemEntry` expects implementations that provide addressable icons and localization caches. Game-specific item types and factories should live in your project, not in this package.
+`IItemEntry` expects implementations that provide addressable icons and localization caches. Game-specific item types and factories should live in your project, not in this package. Use the package sample as a starting template.
