@@ -44,7 +44,7 @@ public class SampleInventoryManager : InventoryManagerBase
             return;
         }
 
-        PlayerInventoryInstance.AddItem(debugItemId, debugAmount, notify: true);
+        PlayerInventoryInstance.AddItem(new ItemAmountContainer(debugItemId, debugAmount), notify: true);
     }
 
     [TitleGroup("Debug Function")]
