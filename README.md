@@ -16,6 +16,12 @@ RAXY Inventory System provides a modular inventory foundation for Unity projects
 3. Assign a component that implements `IItemFactory`.
 4. Optionally configure `InitialItems` and call `SendInitialItems()` at game start.
 
+## Inventory objects
+
+Add `CheckItemsInInventory` to a GameObject. It inherits `InventoryObject`, so no second component is needed. Configure the checker's item amounts and its available/missing UnityEvents. Call `ScanInventoryObjects()` on the manager after inventory initialization or after loading a new area; this finds active and inactive inventory objects and executes each check. Call `RefreshInventoryObjects()` to execute the registered checks again without rescanning. Item changes do not trigger refresh automatically.
+
+`CheckItemsInInventory.Execute()` can also be called directly. If `executeOnStart` is enabled, it runs once at Start in addition to any later scan.
+
 ## Samples
 
 Import **Basic Setup** from Package Manager → RAXY Inventory System → Samples:

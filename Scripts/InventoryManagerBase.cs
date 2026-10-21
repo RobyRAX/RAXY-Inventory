@@ -11,6 +11,43 @@ namespace RAXY.InventorySystem
     {
         public const string PLAYER_INVENTORY_ID = "player_inventory";
 
+        [TitleGroup("Inventory Objects")]
+        public List<InventoryObject> inventoryObjects = new();
+
+        [HorizontalGroup("Inventory Objects/Action")]
+        [Button("Scan")]
+        public void ScanInventoryObjects()
+        {
+            inventoryObjects ??= new List<InventoryObject>();
+            inventoryObjects.Clear();
+
+            var allInventoryObjects = FindObjectsByType<InventoryObject>(
+                FindObjectsInactive.Include,
+                FindObjectsSortMode.None);
+
+            foreach (var inventoryObject in allInventoryObjects)
+            {
+                inventoryObject.Set_InventoryManager(this);
+                inventoryObjects.Add(inventoryObject);
+            }
+
+            RefreshInventoryObjects();
+        }
+
+        [HorizontalGroup("Inventory Objects/Action")]
+        [Button("Refresh")]
+        public void RefreshInventoryObjects()
+        {
+            if (inventoryObjects == null)
+                return;
+
+            foreach (var inventoryObject in inventoryObjects)
+            {
+                if (inventoryObject != null)
+                    inventoryObject.Refresh();
+            }
+        }
+
         public InventoryInstance PlayerInventoryInstance
         {
             get
