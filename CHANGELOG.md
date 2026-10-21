@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.0
+
+- Added inventory snapshot DTOs and capture/restore methods to `InventoryManagerBase`.
+
 ## 1.2.0
 
 - Added the `InventoryObject` base component, with scanning and manual refresh in `InventoryManagerBase`.

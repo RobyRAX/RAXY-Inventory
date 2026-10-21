@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace RAXY.InventorySystem
 {
-    public abstract class InventoryManagerBase : MonoBehaviour
+    public abstract partial class InventoryManagerBase : MonoBehaviour
     {
         public const string PLAYER_INVENTORY_ID = "player_inventory";
 
