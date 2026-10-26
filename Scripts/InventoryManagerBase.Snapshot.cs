@@ -25,12 +25,9 @@ namespace RAXY.InventorySystem
                             string.IsNullOrEmpty(item.ItemInstanceId) || item.Amount <= 0)
                             continue;
 
-                        inventory.items.Add(new InventoryItemSnapshot
-                        {
-                            itemId = item.ItemId,
-                            itemInstanceId = item.ItemInstanceId,
-                            amount = item.Amount
-                        });
+                        var itemSnapshot = CaptureItemSnapshot(item);
+                        if (itemSnapshot != null)
+                            inventory.items.Add(itemSnapshot);
                     }
                 }
 
@@ -38,6 +35,21 @@ namespace RAXY.InventorySystem
             }
 
             return snapshot;
+        }
+
+        protected virtual InventoryItemSnapshot CaptureItemSnapshot(IItemInstance item)
+        {
+            return new InventoryItemSnapshot
+            {
+                itemId = item.ItemId,
+                itemInstanceId = item.ItemInstanceId,
+                amount = item.Amount
+            };
+        }
+
+        protected virtual bool RestoreItemSnapshot(InventoryItemSnapshot snapshot, IItemInstance instance)
+        {
+            return true;
         }
 
         public bool RestoreSnapshot(InventorySnapshot snapshot)
@@ -120,6 +132,12 @@ namespace RAXY.InventorySystem
                         }
 
                         instance.ItemInstanceId = savedItem.itemInstanceId;
+                        if (!RestoreItemSnapshot(savedItem, instance))
+                        {
+                            Debug.LogWarning($"[InventoryManager] Skipping item '{savedItem.itemId}' because its snapshot could not be restored.");
+                            continue;
+                        }
+
                         inventory.storedItems.Add(savedItem.itemInstanceId, instance);
                     }
                 }

@@ -18,7 +18,7 @@ namespace RAXY.InventorySystem
     }
 
     [Serializable]
-    public sealed class InventoryItemSnapshot
+    public class InventoryItemSnapshot
     {
         public string itemId;
         public string itemInstanceId;

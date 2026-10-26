@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.0
+
+- Allow `InventoryItemSnapshot` to be inherited for item-specific saved data.
+- Add capture and restore hooks to `InventoryManagerBase` for custom item snapshots.
+
 ## 1.3.0
 
 - Added inventory snapshot DTOs and capture/restore methods to `InventoryManagerBase`.
